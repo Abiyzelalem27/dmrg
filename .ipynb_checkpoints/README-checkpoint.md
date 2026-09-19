@@ -1,9 +1,9 @@
 
-# Density Matrix Renormalization Group (DMRG)
+# Density Matrix Renormalization Group (dmrg)
 
 An educational Python package for tensor networks, matrix product states (MPS), and the two-site density matrix renormalization group algorithm.
 
-## Two-Site DMRG Flowchart
+## Two-Site DMRG Flowchart 
 
 <p align="center">
   <img
