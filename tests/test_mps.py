@@ -231,3 +231,53 @@ def test_invalid_bond_dimension_for_entropy():
         match="bond_dimension must be positive",
     ):
         dmrg.mps.maximum_entanglement_entropy(0)
+
+def test_maximum_entanglement_entropy():
+    result = dmrg.mps.maximum_entanglement_entropy(
+        bond_dimension=4,
+        base=2,
+    )
+
+    assert np.isclose(result, 2)
+
+
+def test_open_mps_parameter_count():
+    result = dmrg.mps.mps_parameter_count(
+        number_of_sites=5,
+        physical_dimension=2,
+        bond_dimension=4,
+        periodic=False,
+    )
+
+    assert result == 112
+
+
+def test_periodic_mps_parameter_count():
+    result = dmrg.mps.mps_parameter_count(
+        number_of_sites=5,
+        physical_dimension=2,
+        bond_dimension=4,
+        periodic=True,
+    )
+
+    assert result == 160
+
+
+def test_periodic_mps_amplitude():
+    # A D=1 periodic MPS representing |00>.
+    tensor = np.array([
+        [[1], [0]],
+    ])
+
+    amplitude_00 = dmrg.mps.periodic_mps_amplitude(
+        [tensor, tensor],
+        [0, 0],
+    )
+
+    amplitude_01 = dmrg.mps.periodic_mps_amplitude(
+        [tensor, tensor],
+        [0, 1],
+    )
+
+    assert np.isclose(amplitude_00, 1)
+    assert np.isclose(amplitude_01, 0) 

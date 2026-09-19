@@ -199,3 +199,104 @@ def mps_parameter_estimate(
         * physical_dimension
         * bond_dimension**2
     )
+
+def maximum_entanglement_entropy(
+    bond_dimension,
+    base=2,
+):
+    """
+    Maximum entropy supported by bond dimension D.
+
+        S_max = log(D)
+    """
+    if bond_dimension < 1:
+        raise ValueError(
+            "bond_dimension must be positive."
+        )
+
+    return float(
+        np.log(bond_dimension) / np.log(base)
+    )
+
+
+def mps_parameter_count(
+    number_of_sites,
+    physical_dimension,
+    bond_dimension,
+    periodic=False,
+):
+    """
+    Count the number of MPS parameters.
+
+    Open boundaries:
+        2*d*D + (N-2)*d*D^2
+
+    Periodic boundaries:
+        N*d*D^2
+    """
+    N = number_of_sites
+    d = physical_dimension
+    D = bond_dimension
+
+    if N < 2:
+        raise ValueError(
+            "number_of_sites must be at least 2."
+        )
+
+    if d < 1 or D < 1:
+        raise ValueError(
+            "Dimensions must be positive."
+        )
+
+    if periodic:
+        return N * d * D**2
+
+    return 2 * d * D + (N - 2) * d * D**2
+
+
+def periodic_mps_amplitude(
+    tensors,
+    physical_indices,
+):
+    """
+    Calculate one periodic-MPS coefficient.
+
+        c_(i1,...,iN)
+        = Tr(A[1,i1] A[2,i2] ... A[N,iN])
+
+    Each tensor has shape (D, d, D).
+    """
+    if len(tensors) != len(physical_indices):
+        raise ValueError(
+            "One physical index is required per tensor."
+        )
+
+    matrices = []
+
+    for tensor, physical_index in zip(
+        tensors,
+        physical_indices,
+    ):
+        tensor = np.asarray(tensor)
+
+        if tensor.ndim != 3:
+            raise ValueError(
+                "Every MPS tensor must have rank 3."
+            )
+
+        if tensor.shape[0] != tensor.shape[2]:
+            raise ValueError(
+                "Periodic MPS tensors require equal left "
+                "and right bond dimensions."
+            )
+
+        matrices.append(
+            tensor[:, physical_index, :]
+        )
+
+    product = matrices[0]
+
+    for matrix in matrices[1:]:
+        product = product @ matrix
+
+    return np.trace(product) 
