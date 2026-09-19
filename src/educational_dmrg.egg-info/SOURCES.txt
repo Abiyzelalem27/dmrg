@@ -1,0 +1,17 @@
+LICENSE
+README.md
+pyproject.toml
+src/dmrg/__init__.py
+src/dmrg/hamiltonians.py
+src/dmrg/operators.py
+src/dmrg/tensors.py
+src/dmrg/utils.py
+src/educational_dmrg.egg-info/PKG-INFO
+src/educational_dmrg.egg-info/SOURCES.txt
+src/educational_dmrg.egg-info/dependency_links.txt
+src/educational_dmrg.egg-info/requires.txt
+src/educational_dmrg.egg-info/top_level.txt
+tests/test_dmrg.py
+tests/test_models.py
+tests/test_mpo.py
+tests/test_mps.py

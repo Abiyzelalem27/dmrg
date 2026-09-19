@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: educational-dmrg
+Version: 0.1.0
+Summary: Tensor networks.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.24
+Provides-Extra: test
+Requires-Dist: pytest>=7.0; extra == "test"
+Dynamic: license-file
